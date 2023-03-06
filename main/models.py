@@ -18,12 +18,7 @@ class Order(models.Model):
 
 
 class Discount(models.Model):
-    first_cost = models.IntegerField()
-    last_coat = models.IntegerField()
-    benefit = models.IntegerField()
     foto = models.ImageField(upload_to='discount/')
-    text_uz = models.CharField(max_length=255)
-    text_ru = models.CharField(max_length=255)
 
 
 class Product(models.Model):
