@@ -1,16 +1,21 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.decorators import api_view
 from .serializer import *
 
 
 # Create your views here.
 
-@api_view(['GET'])
-def start(request):
-    start = Start.objects.last()
-    ser = StartSerializer(start)
-    return Response(ser.data)
-
+@api_view(["GET"])
+def info_social(request):
+    info = Info.objects.last()
+    info_ser = InfoSerializer(info)
+    s_media = SocialMedia.objects.all()
+    s_media_ser = SocialMediaSerializer(s_media, many=True)
+    data = {
+        "info": info_ser.data,
+        "social_media": s_media_ser.data
+    }
+    return Response(data)
 
 @api_view(['GET'])
 def product(request):
@@ -23,10 +28,50 @@ def product(request):
 def post_order(request):
     name = request.POST.get("name")
     phone_number = request.POST.get("phone_number")
-    order = Order.objects.create(name=name, phone_number=phone_number)
+    if name and phone_number is not None:
+        if name.isalpha():
+            if len(phone_number) == 13:
+                if phone_number[:4] == "+998":
+                    a = phone_number[4:6]
+                    list = ["99", "98", "97", "95", "94", "93", "91", "90", "88", "33"]
+                    if a in list:
+                        if phone_number[6:].isdigit():
+                            Order.objects.create(name=name, phone=phone_number)
+                            order = Order.objects.last()
+                            data = OrderSerializer(order).data
+                        else:
+                            data = {
+                                "error": "Number must include only numbers"
+                            }
+                    else:
+                        data = {
+                            "error": "Number company not found"
+                        }
+                else:
+                    data = {
+                        "error": "Ex. +998901234567"
+                    }
+            else:
+                data = {
+                    "error": "The length of number must be 13"
+                }
+        else:
+            data = {
+                "error": "Name must include only letters"
+            }
+    else:
+        data = {
+            "error": "Name and number can't be None"
+        }
+    return Response(data)
+
+
+
+@api_view(['GET'])
+def get_order(request):
+    order = Order.objects.all()
     ser = OrderSerializer(order)
     return Response(ser.data)
-
 
 @api_view(['GET'])
 def discount(request):
@@ -37,23 +82,17 @@ def discount(request):
 
 @api_view(['GET'])
 def about_product(request):
-    prod = About_product.objects.order_by('-id')[:2]
-    ser = About_productSerializer(prod, many=True)
+    prod = AboutProduct.objects.order_by('-id')[:2]
+    ser = AboutProductSerializer(prod, many=True)
     return Response(ser.data)
 
 
 @api_view(['GET'])
 def about_company(request):
-    comp = About_company.objects.last()
-    ser = About_productSerializer(comp)
+    comp = AboutCompany.objects.last()
+    ser = AboutCompanySerializer(comp)
     return Response(ser.data)
 
-
-@api_view(['GET'])
-def using(request):
-    use = Using.objects.last()
-    ser = UsingSerializer(use)
-    return Response(ser.data)
 
 
 @api_view(['GET'])
@@ -64,16 +103,19 @@ def faq(request):
 
 
 @api_view(['GET'])
-def product_cooking(request):
-    cook = Product_cooking.objects.last()
-    ser = Product_cookingSerializer(cook)
-    return Response(ser.data)
+def how_using(request):
+    who_use = WhoUse.objects.all()
+    who_use_ser = WhoUseSerializer(who_use, many=True)
+    data = {
+        "data": who_use_ser.data,
+    }
+    return Response(data)
 
 
 @api_view(['GET'])
-def recommend(request):
-    recommend = Recommend.objects.order_by('-id')[:7]
-    ser = RecommendSerializer(recommend, many=True)
+def using(request):
+    use = WhoUse.objects.order_by('-id')[:7]
+    ser = WhoUseSerializer(use, many=True)
     return Response(ser.data)
 
 
@@ -82,3 +124,4 @@ def info(request):
     info = Info.objects.last()
     ser = InfoSerializer(info)
     return Response(ser.data)
+
