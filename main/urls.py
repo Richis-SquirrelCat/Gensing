@@ -1,16 +1,13 @@
-from django.urls import path
-from .views import *
+from django.contrib import admin
+from .models import *
 
-urlpatterns = [
-    path('product/', product),
-    path('post-order/', post_order),
-    path('get-order/', get_order),
-    path('discount/', discount),
-    path('about-product/', about_product),
-    path('about-company/', about_company),
-    path('using/', using),
-    path('faq/', faq),
-    path('product-cooking/', how_using),
-    path('info/', info),
-    path('info-social/', info_social)
-]
+admin.site.register(SocialMedia)
+admin.site.register(Order)
+admin.site.register(Discount)
+admin.site.register(Product)
+admin.site.register(AboutProduct)
+admin.site.register(AboutCompany)
+admin.site.register(WhoUse)
+admin.site.register(HowToUse)
+admin.site.register(Faq)
+admin.site.register(Info)
