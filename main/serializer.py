@@ -2,8 +2,8 @@ from rest_framework import serializers
 from .models import *
 
 
-class StartSerializer(serializers.Serializer):
-    model = Start
+class SocialMediaSerializer(serializers.Serializer):
+    model = SocialMedia
     field = '__all__'
 
 
@@ -22,28 +22,24 @@ class ProductSerializer(serializers.Serializer):
     field = '__all__'
 
 
-class About_productSerializer(serializers.Serializer):
-    model = About_product
+class AboutProductSerializer(serializers.Serializer):
+    model = AboutProduct
     field = '__all__'
 
 
-class Product_cookingSerializer(serializers.Serializer):
-    model = Product_cooking
+
+class AboutCompanySerializer(serializers.Serializer):
+    model = AboutCompany
     field = '__all__'
 
 
-class About_companySerializer(serializers.Serializer):
-    model = About_company
+class WhoUseSerializer(serializers.Serializer):
+    model = WhoUse
     field = '__all__'
 
 
-class RecommendSerializer(serializers.Serializer):
-    model = Recommend
-    field = '__all__'
-
-
-class UsingSerializer(serializers.Serializer):
-    model = Using
+class HowToUseSerializer(serializers.Serializer):
+    model = HowToUse
     field = '__all__'
 
 
@@ -55,3 +51,4 @@ class FaqSerializer(serializers.Serializer):
 class InfoSerializer(serializers.Serializer):
     model = Info
     field = '__all__'
+
